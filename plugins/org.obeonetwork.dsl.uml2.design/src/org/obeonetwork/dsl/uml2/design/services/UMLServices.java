@@ -461,6 +461,20 @@ public class UMLServices {
 		return res;
 	}
 
+	public boolean isRelated(EObject toFilter, Package context) {
+		boolean res = false;
+		if (toFilter instanceof Package) {
+			res = context.getNestedPackages().contains(toFilter)
+					|| context.getImportedPackages().contains(toFilter);
+			for (PackageImport packageImport : context.getPackageImports()) {
+				if(packageImport.getImportedPackage().equals(toFilter))
+					res = true;
+			}
+		}
+
+		return res;
+	}
+
 	private Predicate<EObject> classifierLike = new Predicate<EObject>() {
 
 		public boolean apply(EObject eObj) {
